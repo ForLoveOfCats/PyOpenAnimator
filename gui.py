@@ -131,7 +131,6 @@ class Widget:
 		self.call_arguments = {}
 		self.is_mouse_over = False
 		self.is_mouse_down = False
-		self.render_identifier = None
 
 	def add_child(self, child):
 		child.parent = self
@@ -221,9 +220,6 @@ class Root(Widget):
 	def __init__(self, anchors):
 		Widget.__init__(self, anchors)
 
-	def render(self):
-		self.render_identifier = 'render'
-
 	def draw(self):
 		renderer.clear(constants.BACKGROUND)
 
@@ -238,7 +234,6 @@ class Panel(Widget):
 		self.color = color
 
 	def render(self):
-		self.render_identifier = 'render'
 		draw_surface = pygame.Surface(self.return_size())
 		pygame.draw.rect(draw_surface, self.color, [0,0]+self.return_size())
 		self.texture = renderer.load_texture(draw_surface)
@@ -255,7 +250,6 @@ class Label(Widget):
 		self.render()
 
 	def render(self):
-		self.render_identifier = 'render'
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.LABEL_BACKGROUND_COLOR)
 		self.render_text(self.text, draw_surface)
@@ -278,7 +272,6 @@ class Button(Widget):
 		pygame.draw.line(draw_surface, constants.BUTTON_OUTLINE_COLOR, (self.return_size()[0]-return_outline_size()/2,0), (self.return_size()[0]-return_outline_size()/2,self.return_size()[0]), return_outline_size())  # Left
 
 	def render(self):
-		self.render_identifier = 'render'
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.BUTTON_BASE_COLOR)
 		self.draw_outline(draw_surface)
@@ -286,22 +279,18 @@ class Button(Widget):
 		self.texture = renderer.load_texture(draw_surface)
 
 	def mouse_over(self):
-		if self.render_identifier != 'mouse_over':
-			self.render_identifier = 'mouse_over'
-			draw_surface = pygame.Surface(self.return_size())
-			draw_surface.fill(constants.BUTTON_HOVER_COLOR)
-			self.draw_outline(draw_surface)
-			self.render_text(self.text, draw_surface)
-			self.texture = renderer.load_texture(draw_surface)
+		draw_surface = pygame.Surface(self.return_size())
+		draw_surface.fill(constants.BUTTON_HOVER_COLOR)
+		self.draw_outline(draw_surface)
+		self.render_text(self.text, draw_surface)
+		self.texture = renderer.load_texture(draw_surface)
 
 	def mouse_down(self):
-		if self.render_identifier != 'mouse_down':
-			self.render_identifier = 'mouse_down'
-			draw_surface = pygame.Surface(self.return_size())
-			draw_surface.fill(constants.BUTTON_PRESS_COLOR)
-			self.draw_outline(draw_surface)
-			self.render_text(self.text, draw_surface)
-			self.texture = renderer.load_texture(draw_surface)
+		draw_surface = pygame.Surface(self.return_size())
+		draw_surface.fill(constants.BUTTON_PRESS_COLOR)
+		self.draw_outline(draw_surface)
+		self.render_text(self.text, draw_surface)
+		self.texture = renderer.load_texture(draw_surface)
 
 	def mouse_up(self):
 		if self.is_mouse_over:
@@ -311,5 +300,4 @@ class Button(Widget):
 
 
 	def mouse_off(self):
-		if self.render_identifier != 'render':
-			self.render()
+		self.render()
