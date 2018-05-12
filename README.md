@@ -16,8 +16,11 @@ To install ensure that all dependencies are installed an working, clone the PyOp
 
 PyOpenAnimator requires the following dependencies:
 1. The newest version of Python 3.x you can get
-2. Recent build of [pygame_sld2](https://github.com/renpy/pygame_sdl2)
+2. Recent build of [pygame_sld2](https://github.com/renpy/pygame_sdl2) (This is a pain to install on Windows)
 3. [Cariosvg](https://cairosvg.org/) (Not currently used in program execution)
 
 
 # Contributions and Bug Reports are Highly Appreciated!
+
+
+**Note:** PyOpenAnimator uses my pygame input wrapper PyInput++. PyInput++ is avaliable for use in your own projects! Get it [here.](https://github.com/ForLoveOfCats/PyInputPP)
