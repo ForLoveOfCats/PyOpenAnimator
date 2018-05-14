@@ -162,12 +162,6 @@ class Widget:
 		self.render()
 		self.update_children()
 
-	def render_text(self, text, draw_surface):
-		font_size = return_font_size(text, self.return_size())
-		font_obj = pygame.font.SysFont(font_name, font_size)
-		font_surf = font_obj.render(text, True, constants.GLOBAL_FONT_COLOR)
-		draw_surface.blit(font_surf, [(self.return_size()[0]/2)-(font_surf.get_width()/2), (self.return_size()[1]/2)-(font_surf.get_height()/2)+(return_outline_size()/2)])  # Don't question it
-
 	def draw(self):
 		blit(self.texture, self.return_pos())
 
@@ -216,6 +210,32 @@ class Widget:
 
 
 
+class _TextRendering():
+	def __init__(self, text):
+		self.text = text
+		self.font_size = constants.BASE_FONT_SIZE
+		self.size_at_text_render = [1,1]
+		self.font_obj = pygame.font.SysFont(font_name, self.font_size)
+
+	def set_text(self, text):
+		if text != self.text:
+			self.text = text
+			self.render()
+
+	def render_text(self, draw_surface):
+		if draw_surface.get_size() != self.size_at_text_render:
+			self.size_at_text_render = draw_surface.get_size()
+			font_size = return_font_size(self.text, self.return_size())
+		else: font_size = self.font_size
+
+		if font_size != self.font_size:
+			self.font_size = font_size
+			self.font_obj = pygame.font.SysFont(font_name, self.font_size)
+		font_surf = self.font_obj.render(self.text, True, constants.GLOBAL_FONT_COLOR)
+		draw_surface.blit(font_surf, [(self.return_size()[0]/2)-(font_surf.get_width()/2), (self.return_size()[1]/2)-(font_surf.get_height()/2)+(return_outline_size()/2)])  # Don't question it
+
+
+
 class Root(Widget):
 	def __init__(self, anchors):
 		Widget.__init__(self, anchors)
@@ -240,29 +260,25 @@ class Panel(Widget):
 
 
 
-class Label(Widget):
+class Label(Widget, _TextRendering):
 	def __init__(self, anchors, text):
 		Widget.__init__(self, anchors)
-		self.text = text
-
-	def set_text(self, text):
-		self.text = text
-		self.render()
+		_TextRendering.__init__(self, text)
 
 	def render(self):
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.LABEL_BACKGROUND_COLOR)
-		self.render_text(self.text, draw_surface)
+		self.render_text(draw_surface)
 		self.texture = renderer.load_texture(draw_surface)
 
 
 
-class Button(Widget):
+class Button(Widget, _TextRendering):
 	def __init__(self, anchors, text):
 		global activatable_widgets
 		activatable_widgets.append(self)
 		Widget.__init__(self, anchors)
-		self.text = text
+		_TextRendering.__init__(self, text)
 
 	def draw_outline(self, draw_surface):  # Draw with lines because draw.line is less weird than draw.rect
 		# This function sucks
@@ -275,21 +291,21 @@ class Button(Widget):
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.BUTTON_BASE_COLOR)
 		self.draw_outline(draw_surface)
-		self.render_text(self.text, draw_surface)
+		self.render_text(draw_surface)
 		self.texture = renderer.load_texture(draw_surface)
 
 	def mouse_over(self):
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.BUTTON_HOVER_COLOR)
 		self.draw_outline(draw_surface)
-		self.render_text(self.text, draw_surface)
+		self.render_text(draw_surface)
 		self.texture = renderer.load_texture(draw_surface)
 
 	def mouse_down(self):
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.BUTTON_PRESS_COLOR)
 		self.draw_outline(draw_surface)
-		self.render_text(self.text, draw_surface)
+		self.render_text(draw_surface)
 		self.texture = renderer.load_texture(draw_surface)
 
 	def mouse_up(self):
