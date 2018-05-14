@@ -5,6 +5,7 @@
 * [x] Widget Scaling
 * [x] Activation Sections
 * [x] Set Anchors (Rerender Widget)
+* [x] Widget Size Based Text Rendering
 * [ ] Widget Types
 	* [x] Panel
 		* [x] Render Color
@@ -35,5 +36,4 @@
 	* [x] Mouse Down
 	* [x] Mouse Released
 	* [x] Mouse Held
-* [ ] Widget Size Based Text Rendering
 * [ ] Widget Focus
