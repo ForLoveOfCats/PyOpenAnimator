@@ -1,8 +1,8 @@
 import pygame_sdl2
 import pygame
-from pygame.render import *
-import inpp
+
 import constants
+import inpp
 
 
 activatable_widgets = []
@@ -50,10 +50,6 @@ def init(window_surface, renderer_arg, controller_arg):
 
 def draw():
 	window_panel.draw()
-
-
-def update():
-	window_panel.update()
 
 
 def tick():

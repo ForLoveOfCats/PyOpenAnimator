@@ -5,7 +5,6 @@ It works when you call its update() function *instead* of pygame's pygame.event.
 
 See example.py for an example usage case.'''
 
-import pygame_sdl2
 import pygame
 
 
