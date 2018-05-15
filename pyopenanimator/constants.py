@@ -11,7 +11,7 @@ BACKGROUND = (255,255,255)
 SVG_BASE_DPI = 96
 BASE_FONT_SIZE = 12
 RESIZING_SECONDS = 0.2  # This is a delay in seconds between the last resize event and when the UI becomes responsive
-MINIMUM_WINDOW_SIZE = 10  # Not really respected but prevents crashes resulting in a window with a size of [0,0]
+MINIMUM_WINDOW_SIZE = 10  # Not really respected but prevents crashes resulting from the window being to small
 
 # Theme
 GLOBAL_FONT_COLOR = (0,0,0)
