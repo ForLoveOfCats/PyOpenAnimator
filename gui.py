@@ -118,7 +118,7 @@ def tick():
 
 
 
-class Widget:
+class _BaseWidget:
 	def __init__(self, anchors):
 		self.children = []  # All child widgets and panels
 		self.anchors = anchors  # List of 4 ints
@@ -236,9 +236,9 @@ class _TextRendering():
 
 
 
-class Root(Widget):
+class Root(_BaseWidget):
 	def __init__(self, anchors):
-		Widget.__init__(self, anchors)
+		_BaseWidget.__init__(self, anchors)
 
 	def draw(self):
 		renderer.clear(constants.BACKGROUND)
@@ -248,9 +248,9 @@ class Root(Widget):
 
 
 
-class Panel(Widget):
+class Panel(_BaseWidget):
 	def __init__(self, anchors, color):
-		Widget.__init__(self, anchors)
+		_BaseWidget.__init__(self, anchors)
 		self.color = color
 
 	def render(self):
@@ -260,9 +260,9 @@ class Panel(Widget):
 
 
 
-class Label(Widget, _TextRendering):
+class Label(_BaseWidget, _TextRendering):
 	def __init__(self, anchors, text):
-		Widget.__init__(self, anchors)
+		_BaseWidget.__init__(self, anchors)
 		_TextRendering.__init__(self, text)
 
 	def render(self):
@@ -273,11 +273,11 @@ class Label(Widget, _TextRendering):
 
 
 
-class Button(Widget, _TextRendering):
+class Button(_BaseWidget, _TextRendering):
 	def __init__(self, anchors, text):
 		global activatable_widgets
 		activatable_widgets.append(self)
-		Widget.__init__(self, anchors)
+		_BaseWidget.__init__(self, anchors)
 		_TextRendering.__init__(self, text)
 
 	def draw_outline(self, draw_surface):  # Draw with lines because draw.line is less weird than draw.rect
