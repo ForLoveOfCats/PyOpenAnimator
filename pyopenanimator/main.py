@@ -46,9 +46,15 @@ while True:
 
 	for current_event in controller.events.raw():
 		if current_event.type == pygame.VIDEORESIZE:
-			window = pygame.display.set_mode((current_event.w, current_event.h), pygame.RESIZABLE)
-			scaleui.window_panel.parent_size = (current_event.w, current_event.h)
-			scaleui.window_size = [current_event.w, current_event.h]
+			window_width, window_height = current_event.w, current_event.h
+			if window_width < constants.MINIMUM_WINDOW_SIZE:
+				window_width = constants.MINIMUM_WINDOW_SIZE
+			if window_height < constants.MINIMUM_WINDOW_SIZE:
+				window_height = constants.MINIMUM_WINDOW_SIZE
+
+			window = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
+			scaleui.window_panel.parent_size = (window_width, window_height)
+			scaleui.window_size = [window_width, window_height]
 			scaleui.window_panel.update()
 			scaleui.resizing_timer = constants.RESIZING_SECONDS*constants.FPS
 
