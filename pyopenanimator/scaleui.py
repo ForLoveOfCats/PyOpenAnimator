@@ -77,8 +77,6 @@ def tick():
 
 			if overlap_x and overlap_y:
 				if not current_widget.is_mouse_over:
-					if constants.DEBUG:
-						print ('Mouse Over')
 					current_widget.is_mouse_over = True
 					current_widget.call_callbacks('mouse_over')  # Mouse Over
 					if current_widget.is_mouse_down:
@@ -87,29 +85,21 @@ def tick():
 						current_widget.mouse_over()
 
 				if controller.events.mouse("Left"):
-					if constants.DEBUG:
-						print ('Mouse Down')
 					current_widget.is_mouse_down = True
 					current_widget.call_callbacks('mouse_over')  # Mouse Down
 					current_widget.mouse_down()
 
 				if not controller.repeats.mouse("Left") and current_widget.is_mouse_down:
-					if constants.DEBUG:
-						print ('Mouse Up')
 					current_widget.is_mouse_down = False
 					current_widget.call_callbacks('mouse_up')  # Mouse Up
 					current_widget.mouse_up()
 
 			elif current_widget.is_mouse_over:
-				if constants.DEBUG:
-					print ('Mouse Off')
 				current_widget.is_mouse_over = False
 				current_widget.call_callbacks('mouse_off')  # Mouse Off
 				current_widget.mouse_off()
 
 			if controller.repeats.mouse("Left"):
-				if constants.DEBUG:
-					print ('Mouse Held')
 				current_widget.call_callbacks('mouse_held')  # Mouse Held
 				current_widget.mouse_held()
 			else:

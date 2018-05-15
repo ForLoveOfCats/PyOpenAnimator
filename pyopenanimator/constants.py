@@ -1,6 +1,4 @@
 
-DEBUG = False
-
 # Display
 SCREEN_WIDTH = 800
 SCREEN_HIGHT = 600
