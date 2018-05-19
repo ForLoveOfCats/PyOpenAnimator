@@ -1,12 +1,12 @@
 import pygame
 
 import constants
+import rendering
 import scaleui
 
 
-def init(renderer_arg, controller_arg):
-	global controller, renderer
-	renderer = renderer_arg
+def init(controller_arg):
+	global controller
 	controller = controller_arg
 
 	left_panel = scaleui.Panel([0,25,0,20], (0,255,0))
@@ -43,4 +43,4 @@ def tick():
 			scaleui.resizing_timer = constants.RESIZING_SECONDS*constants.FPS
 
 	scaleui.draw()
-	renderer.render_present()
+	rendering.present()

@@ -3,18 +3,11 @@ import pygame
 
 import constants
 import inpp
+import rendering
 
 
 activatable_widgets = []
 resizing_timer = 0
-
-
-class blit(pygame.render.Sprite):
-	def __init__(self, img_tex, position):
-		if isinstance(img_tex, pygame_sdl2.surface.Surface):
-			img_tex = renderer.load_texture(img_tex)
-		pygame.render.Sprite.__init__(self, img_tex)
-		self.render(position)
 
 
 def return_font_size(text, space):
@@ -35,13 +28,11 @@ def return_outline_size():
 	return ((sum(window_size)/2)/100)*constants.BUTTON_OUTLINE_THICKNESS
 
 
-def init(window_surface, renderer_arg, controller_arg):
-	global window, window_size, window_panel, renderer, controller, font_name, base_font
-	window = window_surface
-	window_size = window.get_size()
-	renderer = renderer_arg
+def init(controller_arg):
+	global window_size, window_panel, controller, font_name, base_font
+	window_size = rendering.window.get_size()
 	window_panel = Root([0,0,0,0])
-	window_panel.parent_size = window.get_size()
+	window_panel.parent_size = rendering.window.get_size()
 	controller = controller_arg
 
 	font_name = pygame.font.get_default_font()
@@ -111,7 +102,7 @@ class _BaseWidget:
 		self.parent_size = [1,1]
 		self.parent_offset = [0,0]
 		self.parent_pos = [0,0]
-		self.texture = renderer.load_texture(pygame.Surface([1,1]))
+		self.texture = rendering.convert_surface(pygame.Surface([1,1]))
 		self.parent = None
 		self.callbacks = {}
 		self.call_arguments = {}
@@ -149,7 +140,7 @@ class _BaseWidget:
 		self.update_children()
 
 	def draw(self):
-		blit(self.texture, self.return_pos())
+		rendering.blit(self.texture, self.return_pos())
 
 		for current_child in self.children:
 			current_child.draw()
@@ -227,7 +218,7 @@ class Root(_BaseWidget):
 		_BaseWidget.__init__(self, anchors)
 
 	def draw(self):
-		renderer.clear(constants.BACKGROUND)
+		rendering.renderer.clear(constants.BACKGROUND)
 
 		for current_child in self.children:
 			current_child.draw()
@@ -242,7 +233,7 @@ class Panel(_BaseWidget):
 	def render(self):
 		draw_surface = pygame.Surface(self.return_size())
 		pygame.draw.rect(draw_surface, self.color, [0,0]+self.return_size())
-		self.texture = renderer.load_texture(draw_surface)
+		self.texture = rendering.convert_surface(draw_surface)
 
 
 
@@ -255,7 +246,7 @@ class Label(_BaseWidget, _TextRendering):
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.LABEL_BACKGROUND_COLOR)
 		self.render_text(draw_surface)
-		self.texture = renderer.load_texture(draw_surface)
+		self.texture = rendering.convert_surface(draw_surface)
 
 
 
@@ -278,21 +269,21 @@ class Button(_BaseWidget, _TextRendering):
 		draw_surface.fill(constants.BUTTON_BASE_COLOR)
 		self.draw_outline(draw_surface)
 		self.render_text(draw_surface)
-		self.texture = renderer.load_texture(draw_surface)
+		self.texture = rendering.convert_surface(draw_surface)
 
 	def mouse_over(self):
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.BUTTON_HOVER_COLOR)
 		self.draw_outline(draw_surface)
 		self.render_text(draw_surface)
-		self.texture = renderer.load_texture(draw_surface)
+		self.texture = rendering.convert_surface(draw_surface)
 
 	def mouse_down(self):
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.BUTTON_PRESS_COLOR)
 		self.draw_outline(draw_surface)
 		self.render_text(draw_surface)
-		self.texture = renderer.load_texture(draw_surface)
+		self.texture = rendering.convert_surface(draw_surface)
 
 	def mouse_up(self):
 		if self.is_mouse_over:
