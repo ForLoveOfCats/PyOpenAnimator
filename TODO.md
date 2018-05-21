@@ -25,7 +25,11 @@
 	* [ ] Scrollbox
 	* [ ] Single Line Text Input
 	* [ ] Single Line Numerical Input
-	* [ ] Absolute Position Canvas
+	* [x] Absolute Position Canvas
+		* [x] Canvas Drawing
+		* [x] Canvas Offset
+		* [x] Canvas Subbackground
+		* [x] Canvas Clear
 	* [ ] Context Menu
 	* [ ] Color Selecter
 	* [ ] F-Curve Editor

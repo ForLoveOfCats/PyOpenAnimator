@@ -294,3 +294,32 @@ class Button(_BaseWidget, _TextRendering):
 
 	def mouse_off(self):
 		self.render()
+
+
+
+class Canvas(_BaseWidget):
+	def __init__(self, anchors, surface_size, offset):
+		_BaseWidget.__init__(self, anchors)
+		self.surface_size = surface_size
+		self.canvas_offset = offset
+		self.surface = pygame.Surface(surface_size)
+		self.surface.fill(constants.CANVAS_BASE_COLOR)
+
+	def offset(self, new_offset):
+		self.canvas_offset = new_offset
+		self.render()
+
+	def clear(self):
+		self.surface.fill(constants.CANVAS_BASE_COLOR)
+
+	def render(self):
+		draw_surface = pygame.Surface(self.return_size())
+		draw_surface.fill(constants.CANVAS_BACKGROUND_COLOR)
+		draw_surface.blit(self.surface, self.canvas_offset)
+		self.texture = rendering.convert_surface(draw_surface)
+
+	def draw(self):
+		rendering.blit(self.texture, self.return_pos())
+
+		for current_child in self.children:
+			current_child.draw()
