@@ -8,10 +8,10 @@ import constants
 class SVG(pygame.Surface):
 	def __init__(self, file, scale_arg):
 		self.file_path = file  # Set path to file for loading
-		self.reload()  # Inital file load
+		self.reload_file()  # Inital file load
 		self.scale(scale_arg)  # Set scale and inital render
 
-	def reload(self):  # Reload file from path
+	def reload_file(self):  # Reload file from path
 		self.file = open(self.file_path, "rb")
 
 	def render(self):
