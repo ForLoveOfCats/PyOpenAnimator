@@ -26,8 +26,8 @@ def init(controller_arg):
 	bottom_panel.add_child(label)
 
 	# Drawing an SVG on the left_panel canvas
-	smiley_svg = svg.load('example.svg')
-	left_panel.surface.blit(svg.render(smiley_svg, 100), (0,0))
+	smiley_svg = svg.SVG('example.svg', 100)
+	left_panel.surface.blit(smiley_svg, (0,0))
 	left_panel.render()
 
 
