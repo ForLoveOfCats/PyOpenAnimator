@@ -19,9 +19,9 @@ interface.init(controller)
 
 while True:
 	controller.tick()
-	interface.tick()
 
 	if controller.events.quit() or controller.events.key(pygame.K_ESCAPE):
 		break
 
+	interface.tick()
 	clock.tick(constants.FPS)

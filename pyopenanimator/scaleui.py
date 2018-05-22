@@ -304,22 +304,23 @@ class Canvas(_BaseWidget):
 		self.canvas_offset = offset
 		self.surface = pygame.Surface(surface_size)
 		self.surface.fill(constants.CANVAS_BASE_COLOR)
+		self.surface_texture = rendering.convert_surface(self.surface)
 
 	def offset(self, new_offset):
 		self.canvas_offset = new_offset
-		self.render()
 
 	def clear(self):
 		self.surface.fill(constants.CANVAS_BASE_COLOR)
 
 	def render(self):
+		self.surface_texture = rendering.convert_surface(self.surface)
 		draw_surface = pygame.Surface(self.return_size())
 		draw_surface.fill(constants.CANVAS_BACKGROUND_COLOR)
-		draw_surface.blit(self.surface, self.canvas_offset)
 		self.texture = rendering.convert_surface(draw_surface)
 
 	def draw(self):
 		rendering.blit(self.texture, self.return_pos())
+		rendering.blit(self.surface_texture, (self.return_pos()[0]+self.canvas_offset[0], self.return_pos()[1]+self.canvas_offset[1]))
 
 		for current_child in self.children:
 			current_child.draw()
